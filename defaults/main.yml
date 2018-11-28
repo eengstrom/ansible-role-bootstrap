@@ -1,0 +1,4 @@
+---
+# Subset of facts to be gathered by the `setup` module *after* the
+# bootstrap installation of python.  See README.md for details.
+bootstrap_gather_facts: 'all'

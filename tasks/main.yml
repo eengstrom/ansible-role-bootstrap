@@ -1,0 +1,26 @@
+---
+- name: Bootstrap Install Python
+  raw: |
+    command -v python  \
+    || (test $? -eq 42 && exit 42 \
+                       || command -v apt-get && apt-get -y update \
+                                             && apt-get install -y python-minimal \
+                                             && exit 42) \
+    || (test $? -eq 42 && exit 42 \
+                       || command -v yum     && yum -y update \
+                                             && yum install -y python \
+                                             && exit 42)
+  register: py2
+  changed_when: py2.rc == 42
+  failed_when: py2.rc >= 1 and py2.rc != 42
+
+- name: Gathering Facts (post python install)
+  setup:
+    gather_subset: "{{ bootstrap_gather_facts }}"
+  when: ( bootstrap_gather_facts is defined
+            and bootstrap_gather_facts
+            and bootstrap_gather_facts | length > 0 )
+
+# - name: test
+#   debug:
+#     msg="{{ ansible_nodename }} (via Gathered Facts from 'setup')"
