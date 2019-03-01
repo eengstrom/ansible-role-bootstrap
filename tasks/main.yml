@@ -1,4 +1,7 @@
 ---
+- include_tasks: known_hosts.yml
+  when: bootstrap_cache_host_keys
+
 - name: Bootstrap Install Python
   raw: |
     command -v python  \

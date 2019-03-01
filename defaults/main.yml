@@ -1,4 +1,20 @@
 ---
+# Cache the ssh host keys of new hosts
+bootstrap_cache_host_keys: true
+
+# What key type should we fetch?  typical:
+#  - rsa
+#  - ed25519
+#  - ecdsa-sha2-nistp256
+bootstrap_ssh_key_type: "ecdsa-sha2-nistp256"
+
+# Should the hostname be hashed in the known_hosts file?
+bootstrap_ssh_key_hash_hostname: false
+
+# What file do we store known_hosts?
+# The default comes from the `known_hosts` module.
+#bootstrap_ssh_key_hosts_file: "~/.ssh/known_hosts"
+
 # Subset of facts to be gathered by the `setup` module *after* the
 # bootstrap installation of python.  See README.md for details.
 bootstrap_gather_facts: 'all'

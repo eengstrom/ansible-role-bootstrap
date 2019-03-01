@@ -1,0 +1,17 @@
+# fetch and store the host key into known_hosts file
+---
+- name: Get SSH port for new host(s).
+  delegate_to: localhost
+  become: false
+  set_fact:
+    bootstrap_ssh_port: "{{ hostvars[inventory_hostname]['ansible_ssh_port'] | default('22') }}"
+
+- name: Ensure ssh host key(s) are cached.
+  delegate_to: localhost
+  become: false
+  known_hosts:
+    path: "{{ bootstrap_ssh_key_hosts_file | d(omit) }}"
+    host: "{{ inventory_hostname }}"
+    key: "{{ lookup('pipe', 'ssh-keyscan -t ' + bootstrap_ssh_key_type + ' -p ' + bootstrap_ssh_port + ' ' + inventory_hostname) }}"
+    state: present
+    hash_host: "{{ bootstrap_ssh_key_hash_hostname }}"

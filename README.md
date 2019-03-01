@@ -1,6 +1,10 @@
-# eengstrom.bootstrap
+# Ansible Bootstrap Role
 
-Ansible role to bootstrap a fresh system to accept subsequent Ansible plays.  Specifically, install a minimal version of `python` so that subsequent plays may use Ansible's typical `python`-based functionality.
+Ansible role to bootstrap a fresh system to accept subsequent Ansible plays.  Specifically:
+ - cache `ssh` host key(s) into `known_hosts` file.
+ - install a minimal version of `python`.
+
+This is a minimal role to ensure that subsequent plays may use Ansible's typical `python`-based functionality.
 
 ## Requirements
 
@@ -12,13 +16,34 @@ None.
 
 ## Role Variables
 
-### `bootstrap_gather_facts` (default: `'all'`)
+* `bootstrap_cache_host_keys` (default: `true`)
 
-Specifies the subset of facts to be gathered by the [`setup` module](https://docs.ansible.com/ansible/latest/modules/setup_module.html) *after* the bootstrap installation of python.  May be a single item (string) or a list of string values. See documentation for the `gather_subset` parameter of the `setup` module for a complete list of possible values.
+  Should this role cache the `ssh` host keys of new hosts?
+  This is executed on `localhost` using the `ssh-keyscan` command to fecth the key, and the `known_hosts` module to cache it.
 
-Defaults to `'all'`, which is the `setup` module default.
+* `bootstrap_ssh_key_type` (default: `"ecdsa-sha2-nistp256"`)
 
-May be set to `false` (or an empty list or an empty string) to disable the gathering of facts post bootstrap.
+  What ssh key type should we fetch?  Typical options include:
+    - `rsa`
+    - `ed25519`
+    - `ecdsa-sha2-nistp256` (default)
+
+
+* `bootstrap_ssh_key_hash_hostname` (default: `false`)
+
+  If true, hostname will be hashed in the `known_hosts` file.
+
+* `bootstrap_ssh_key_hosts_file` (default: `"~/.ssh/known_hosts"`)
+
+  Location of the file into which the host key will be stored.  If unset (the default), the location is the default of the ansible `known_hosts` module, which is `~/.ssh/known_hosts`.
+
+* `bootstrap_gather_facts` (default: `'all'`)
+
+  Specifies the subset of facts to be gathered by the [`setup` module](https://docs.ansible.com/ansible/latest/modules/setup_module.html) *after* the bootstrap installation of python.  May be a single item (string) or a list of string values. See documentation for the `gather_subset` parameter of the `setup` module for a complete list of possible values.
+
+  Defaults to `'all'`, which is the `setup` module default.
+
+  May be set to `false` (or an empty list or an empty string) to disable the gathering of facts post bootstrap.
 
 ## Example Playbook
 
