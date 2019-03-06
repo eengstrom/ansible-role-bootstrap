@@ -1,4 +1,4 @@
-# fetch and store the host key into known_hosts file
+# fetch ssh host key and store the key into the local known_hosts file
 ---
 - name: Get SSH port for new host(s).
   delegate_to: localhost
