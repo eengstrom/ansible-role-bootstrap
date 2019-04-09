@@ -1,6 +1,8 @@
 ---
 - include_tasks: known_hosts.yml
-  when: bootstrap_cache_host_keys
+  when:
+    - bootstrap_cache_host_keys
+    - (ansible_connection == "ssh") or (ansible_connection == 'paramiko_ssh')
 
 - name: Bootstrap Install Python
   raw: |
