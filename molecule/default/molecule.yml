@@ -14,8 +14,8 @@ platforms:
     image: fedora:26
   - name: fedora27
     image: fedora:27
-  - name: wheezy
-    image: debian:wheezy
+  # - name: wheezy
+  #   image: debian:wheezy
   - name: jessie
     image: debian:jessie
   - name: stretch

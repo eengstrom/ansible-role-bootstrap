@@ -20,7 +20,7 @@ galaxy_info:
         - 27
     - name: Debian
       versions:
-        - wheezy
+        # - wheezy
         - jessie
         - stretch
     - name: Ubuntu
