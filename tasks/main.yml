@@ -1,7 +1,7 @@
 ---
 - import_tasks: known_hosts.yml
   when:
-    - bootstrap_cache_host_keys
+    - bootstrap_ssh_key_auto_cache
   tags:
     - known_hosts
 

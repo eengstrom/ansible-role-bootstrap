@@ -16,22 +16,20 @@ None.
 
 ## Role Variables
 
-* `bootstrap_cache_host_keys` (default: `true`)
+* `bootstrap_ssh_key_auto_cache` (default: `true`)
 
-  Should this role cache the `ssh` host keys of new hosts?
-  This is executed on `localhost` using the `ssh-keyscan` command to fecth the key, and the `known_hosts` module to cache it.
-
-* `bootstrap_ssh_key_type` (default: `"ecdsa-sha2-nistp256"`)
-
-  What ssh key type should we fetch?  Typical options include:
-    - `rsa`
-    - `ed25519`
-    - `ecdsa-sha2-nistp256` (default)
-
+  Should this role automatically cache the `ssh` host keys of new hosts?
+  This is executed on `localhost` using the `ssh-keyscan` command to fetch the key,
+  and the `known_hosts` module to cache it.
 
 * `bootstrap_ssh_key_hash_hostname` (default: `false`)
 
   If true, hostname will be hashed in the `known_hosts` file.
+
+* `bootstrap_ssh_key_cache_ipv4` (default: `true`)
+
+  If true, cache the IP[V4] address(es) of the host as well.
+
 * `bootstrap_ssh_key_cache_blindly` (default: `false`)
 
   If true, update cached keys on EVERY invocation.
@@ -41,6 +39,14 @@ None.
   for example if you know the host keys have changed recently.
   Can be turned on either by changing this variable, or temporarily
   at invocation by providing the tag/option `-t cache_blindly`.
+
+* `bootstrap_ssh_key_type` (default: `"ecdsa"`)
+
+  What ssh key type should we fetch?  Typical options include:
+    - `dsa`  (**NOTE: this is deprecated by most SSH installations as insecure**)
+    - `rsa`
+    - `ecdsa` (default)
+    - `ed25519`
 
 * `bootstrap_ssh_key_hosts_file` (default: `"~/.ssh/known_hosts"`)
 

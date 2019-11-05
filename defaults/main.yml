@@ -1,6 +1,6 @@
 ---
 # Cache the ssh host keys of new hosts
-bootstrap_cache_host_keys: true
+bootstrap_ssh_key_auto_cache: true
 
 # Should the hostname be hashed in the known_hosts file?
 bootstrap_ssh_key_hash_hostname: false
