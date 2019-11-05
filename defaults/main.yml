@@ -8,6 +8,15 @@ bootstrap_ssh_key_hash_hostname: false
 # Should we cache the IP[V4] address of the host as well?
 bootstrap_ssh_key_cache_ipv4: true
 
+# Update cached keys on EVERY invocation.
+# NOTE: this runs a higher risk of MITM attacks,
+# as the any cached host keys are replaced blindly every time.
+# However, you might want to turn this on in certain situations,
+# for example if you know the host keys have changed recently.
+# Can be turned on either by changing this variable, or temporarily
+# at invocation by providing the tag/option `-t cache_blindly`
+bootstrap_ssh_key_cache_blindly: false
+
 # What key type should we cache?  options:
 #  - dsa  -- REALLY?  I HIGHLY DISCOURAGE THIS!!!
 #  - rsa

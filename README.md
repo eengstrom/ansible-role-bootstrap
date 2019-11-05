@@ -32,6 +32,15 @@ None.
 * `bootstrap_ssh_key_hash_hostname` (default: `false`)
 
   If true, hostname will be hashed in the `known_hosts` file.
+* `bootstrap_ssh_key_cache_blindly` (default: `false`)
+
+  If true, update cached keys on EVERY invocation.
+  **SECURITY NOTE**: this runs a higher risk of MITM attacks,
+  as the any cached host keys are replaced blindly every time.
+  However, you might want to turn this on in certain situations,
+  for example if you know the host keys have changed recently.
+  Can be turned on either by changing this variable, or temporarily
+  at invocation by providing the tag/option `-t cache_blindly`.
 
 * `bootstrap_ssh_key_hosts_file` (default: `"~/.ssh/known_hosts"`)
 

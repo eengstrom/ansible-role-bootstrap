@@ -5,6 +5,15 @@
   set_fact:
     bootstrap_ansible_connection: "{{ ansible_connection }}"
 
+# See defaults/main.yml and README.md for important details
+- name: Allow blind cache updating
+  set_fact:
+    bootstrap_ssh_key_cache_blindly: true
+  # NOTE: using direct check of run tags, which is slighlty unusual.
+  # Allows other tags to be applied on import of this file.
+  when:
+    - ('cache_blindly' in ansible_run_tags)
+
 - block:
 
   - name: Check for cached SSH host key
@@ -15,6 +24,8 @@
     check_mode: yes
     changed_when: false
     register: bootstrap_ssh_host_key_cached
+    when:
+      - not bootstrap_ssh_key_cache_blindly
 
   - name: Collect host IP addresses
     set_fact:
