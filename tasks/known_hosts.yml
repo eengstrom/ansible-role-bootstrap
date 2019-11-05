@@ -16,15 +16,22 @@
     changed_when: false
     register: bootstrap_ssh_host_key_cached
 
+  - name: Collect host IP addresses
+    set_fact:
+      bootstrap_host_ipv4s: "{{ lookup('dig', inventory_hostname, 'qtype=A', wantlist=True)
+                                | select('match', '[0-9.]+')
+                                | list }}"
+    when:
+      - bootstrap_ssh_key_cache_ipv4
+
   - name: Fetch SSH host key
     set_fact:
       bootstrap_ssh_host_key: "{{ lookup('pipe',
                                          'ssh-keyscan'
                                             + ' -t ' + bootstrap_ssh_key_type
                                             + ' -p ' + (hostvars[inventory_hostname]['ansible_ssh_port'] | default('22'))
-                                            + ' ' + inventory_hostname
+                                            + ' ' + ( [ inventory_hostname ] + ( bootstrap_host_ipv4s | d([]) ) ) | join(',')
                                             + ' 2>/dev/null') }}"
-                                            # + ,ip-address
     when:
       - not ( bootstrap_ssh_host_key_cached['found'] | d(false) )
     failed_when:

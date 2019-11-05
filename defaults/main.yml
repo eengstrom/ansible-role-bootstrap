@@ -2,15 +2,18 @@
 # Cache the ssh host keys of new hosts
 bootstrap_cache_host_keys: true
 
+# Should the hostname be hashed in the known_hosts file?
+bootstrap_ssh_key_hash_hostname: false
+
+# Should we cache the IP[V4] address of the host as well?
+bootstrap_ssh_key_cache_ipv4: true
+
 # What key type should we cache?  options:
 #  - dsa  -- REALLY?  I HIGHLY DISCOURAGE THIS!!!
 #  - rsa
 #  - ecdsa
 #  - ed25519
 bootstrap_ssh_key_type: "ecdsa"
-
-# Should the hostname be hashed in the known_hosts file?
-bootstrap_ssh_key_hash_hostname: false
 
 # What file do we store known_hosts?
 # The default comes from the `known_hosts` module.
