@@ -1,4 +1,8 @@
-# fetch ssh host key(s) and store into the local known_hosts file
+# Fetch ssh host key(s) and store into the local known_hosts file.
+# Note that this makes heavy use of `inventory_hostname` rather than
+# `ansible_hostname` since the latter requires facts to have been gathered,
+# which likely hasn't happened at this point.
+#  => implies LARGE assumption that your hostnames and inventory names match.
 ---
 # special var 'ansible_connection' is not saved under 'delegate_to'
 - name: Save connection method
@@ -48,6 +52,9 @@
     failed_when:
       - (bootstrap_ssh_host_key | d("")) == ""
 
+  - debug:
+      # msg="{{ lookup('dig', 'cloudflare.com', 'qtype=A') }}"
+      # var: inventory_hostname
   - name: Update SSH host key cache
     run_once: true
     known_hosts:

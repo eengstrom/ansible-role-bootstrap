@@ -66,9 +66,9 @@ There is very little to this role, however, because it's primary task is to inst
 
 After bootstrap, the module will attempt to re-gather facts not yet in Ansible's brain per the variable `bootstrap_gather_facts`.
 
-## License
+## SSH Host Key Caching Caveats
 
-[BSD 3-Clause "New" or "Revised" License](https://spdx.org/licenses/BSD-3-Clause.html)
+Because this playbook is intended to be run on a fresh system, typically it will be run with `gather_facts: false`; see above.  Because of this expected usage scenario, the caching of SSH host keys (see `bootstrap_ssh_key_auto_cache`) will use the value of `inventory_hostname` rather than `ansible_hostname`, since the latter requires facts to have been gathered, which will not have yet occurred.  This has the unfortunate *requirement* and assumption that your systems' hostnames and inventory names match.  If this is not the case, you may have issues.  If someone has a better way to do "the right thing", please submit a PR.
 
 ## Testing
 
@@ -84,3 +84,7 @@ Testing of this role uses [`molecule`](https://molecule.readthedocs.io/en/latest
 - Eric Engstrom
 
 ... with thanks to Willem de Groot, who wrote the [GitHub Gist](https://gist.github.com/gwillem/4ba393dceb55e5ae276a87300f6b8e6f) upon which this is based.
+
+## License
+
+[BSD 3-Clause "New" or "Revised" License](https://spdx.org/licenses/BSD-3-Clause.html)
