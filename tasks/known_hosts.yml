@@ -1,44 +1,50 @@
 # fetch ssh host key(s) and store into the local known_hosts file
 ---
-- name: Check for cached SSH host key
-  delegate_to: localhost
-  become: false
-  lineinfile:
-    path: "{{ bootstrap_ssh_key_hosts_file | d(bootstrap_ssh_key_hosts_file_default) }}"
-    regexp: '^{{ inventory_hostname }}(,[0-9.]+)? .*'  # note embedded space
-    state: absent
-  check_mode: yes
-  changed_when: false
-  register: bootstrap_ssh_host_key_cached
-
-- name: Fetch SSH host key
-  delegate_to: localhost
-  become: false
+# special var 'ansible_connection' is not saved under 'delegate_to'
+- name: Save connection method
   set_fact:
-    bootstrap_ssh_host_key: "{{ lookup('pipe',
-                                       'ssh-keyscan'
-                                          + ' -t ' + bootstrap_ssh_key_type
-                                          + ' -p ' + (hostvars[inventory_hostname]['ansible_ssh_port'] | default('22'))
-                                          + ' ' + inventory_hostname
-                                          + ' 2>/dev/null') }}"
-                                          # + ,ip-address
-  when:
-    - not ( bootstrap_ssh_host_key_cached['found'] | d(false) )
-    # - not bootstrap_ssh_host_key_cached.found
-    # - (hostvars[inventory_hostname]['ansible_connection'] in [ ssh, paramiko ])
-  failed_when:
-    - (bootstrap_ssh_host_key | d("")) == ""
+    bootstrap_ansible_connection: "{{ ansible_connection }}"
 
-- name: Update SSH host key cache
+- block:
+
+  - name: Check for cached SSH host key
+    lineinfile:
+      path: "{{ bootstrap_ssh_key_hosts_file | d(bootstrap_ssh_key_hosts_file_default) }}"
+      regexp: '^{{ inventory_hostname }}(,[0-9.]+)? .*'  # note embedded space
+      state: absent
+    check_mode: yes
+    changed_when: false
+    register: bootstrap_ssh_host_key_cached
+
+  - name: Fetch SSH host key
+    set_fact:
+      bootstrap_ssh_host_key: "{{ lookup('pipe',
+                                         'ssh-keyscan'
+                                            + ' -t ' + bootstrap_ssh_key_type
+                                            + ' -p ' + (hostvars[inventory_hostname]['ansible_ssh_port'] | default('22'))
+                                            + ' ' + inventory_hostname
+                                            + ' 2>/dev/null') }}"
+                                            # + ,ip-address
+    when:
+      - not ( bootstrap_ssh_host_key_cached['found'] | d(false) )
+    failed_when:
+      - (bootstrap_ssh_host_key | d("")) == ""
+
+  - name: Update SSH host key cache
+    run_once: true
+    known_hosts:
+      path: "{{ bootstrap_ssh_key_hosts_file | d(omit) }}"
+      host: "{{ item }}"
+      key: "{{ hostvars[item]['bootstrap_ssh_host_key'] | d(omit) }}"
+      state: present
+      hash_host: "{{ bootstrap_ssh_key_hash_hostname }}"
+    with_items: "{{ ansible_play_batch }}"
+    when:
+      - hostvars[item]['bootstrap_ssh_host_key'] is defined
+
+  # BLOCK OPTIONS
   delegate_to: localhost
-  run_once: true
   become: false
-  known_hosts:
-    path: "{{ bootstrap_ssh_key_hosts_file | d(omit) }}"
-    host: "{{ item }}"
-    key: "{{ hostvars[item]['bootstrap_ssh_host_key'] | d(omit) }}"
-    state: present
-    hash_host: "{{ bootstrap_ssh_key_hash_hostname }}"
-  with_items: "{{ ansible_play_batch }}"
   when:
-    - hostvars[item]['bootstrap_ssh_host_key'] is defined
+    - bootstrap_ansible_connection in [ 'ssh', 'paramiko' ]
+  # BLOCK END
