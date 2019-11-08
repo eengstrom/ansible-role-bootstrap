@@ -30,7 +30,3 @@
   when: ( bootstrap_gather_facts is defined
             and bootstrap_gather_facts
             and bootstrap_gather_facts | length > 0 )
-
-# - name: test
-#   debug:
-#     msg="{{ ansible_nodename }} (via Gathered Facts from 'setup')"
