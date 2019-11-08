@@ -15,10 +15,14 @@
     || (test $? -eq 42 && exit 42 \
                        || command -v yum     && yum -y update \
                                              && yum install -y python \
+                                             && exit 42) \
+    || (test $? -eq 42 && exit 42 \
+                       || command -v pkg     && pkg update \
+                                             && pkg install -y python \
                                              && exit 42)
-  register: py2
-  changed_when: py2.rc == 42
-  failed_when: py2.rc >= 1 and py2.rc != 42
+  register: py
+  changed_when: py.rc == 42
+  failed_when: py.rc >= 1 and py.rc != 42
 
 - name: Gathering Facts (post python install)
   setup:

@@ -26,6 +26,8 @@ platforms:
     image: ubuntu:16.04
   - name: bionic
     image: ubuntu:18.04
+  # - name: freebsd12
+  #   image: ???
 provisioner:
   name: ansible
   lint:

@@ -28,6 +28,10 @@ galaxy_info:
         - trusty
         - xenial
         - bionic
+    - name: FreeBSD
+      versions:
+        - 11
+        - 12
   galaxy_tags:
     - bootstrap
     - python
