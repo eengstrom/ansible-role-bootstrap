@@ -8,7 +8,9 @@ This is a minimal role to ensure that subsequent plays may use Ansible's typical
 
 ## Requirements
 
-This role requires a minimal version (> 1.2) of Ansible on your control node.
+This role requires (on your control node)
+ - a minimal version (> 1.2) of Ansible
+ - `dnspython` python library (only for `known_hosts` caching)
 
 ## Dependencies
 
