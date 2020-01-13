@@ -10,22 +10,36 @@ platforms:
     image: centos:6
   - name: centos7
     image: centos:7
+  - name: centos8
+    image: centos:8
   - name: fedora26
     image: fedora:26
   - name: fedora27
     image: fedora:27
-  # - name: wheezy
-  #   image: debian:wheezy
+  - name: fedora28
+    image: fedora:28
+  - name: fedora29
+    image: fedora:29
+  - name: fedora30
+    image: fedora:30
+  - name: fedora31
+    image: fedora:31
   - name: jessie
     image: debian:jessie
   - name: stretch
     image: debian:stretch
+  - name: buster
+    image: debian:buster
   - name: trusty
     image: ubuntu:14.04
   - name: xenial
     image: ubuntu:16.04
   - name: bionic
     image: ubuntu:18.04
+  - name: disco
+    image: ubuntu:19.04
+  - name: eoan
+    image: ubuntu:19.10
 provisioner:
   name: ansible
   lint:

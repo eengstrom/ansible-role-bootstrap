@@ -100,6 +100,8 @@ Testing of this role uses [`molecule`](https://molecule.readthedocs.io/en/latest
     molecule test
     exit
 
+CAVEAT: I do not have testing setup for FreeBSD, largely because using docker on Linux to spin up FreeBSD containers is not really easy.  I'll have to move to VirtualBox testing at some point.
+
 ## Author Information
 
 - Eric Engstrom
