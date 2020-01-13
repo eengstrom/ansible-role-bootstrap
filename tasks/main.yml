@@ -5,20 +5,36 @@
   tags:
     - known_hosts
 
+- name: Determine OS release
+  raw: 'cat /etc/*os-release'
+  register: os
+  when:
+    - bootstrap_python_auto_fallback
+  changed_when: false
+  failed_when: false
+
+# No, non-trivial way to install python3 on older systems, so fallback.
+- name: Select older python for older OSen
+  set_fact:
+    bootstrap_python_version: 'python'
+  when:
+    - bootstrap_python_auto_fallback
+    - (os | d('')) is regex('CentOS [^ ]+ 6|Debian [^ ]+ 8|Ubuntu 14')
+
 - name: Bootstrap Install Python
   raw: |
-    command -v python  \
+    command -v {{ bootstrap_python_version }}  \
     || (test $? -eq 42 && exit 42 \
                        || command -v apt-get && apt-get -y update \
-                                             && apt-get install -y python-minimal \
+                                             && DEBIAN_FRONTEND=noninteractive apt-get install -y {{ bootstrap_python_version }}-minimal \
                                              && exit 42) \
     || (test $? -eq 42 && exit 42 \
                        || command -v yum     && yum -y update \
-                                             && yum install -y python \
+                                             && yum install -y {{ bootstrap_python_version }} \
                                              && exit 42) \
     || (test $? -eq 42 && exit 42 \
                        || command -v pkg     && pkg update \
-                                             && pkg install -y python \
+                                             && pkg install -y {{ bootstrap_python_version }} \
                                              && exit 42)
   register: py
   changed_when: py.rc == 42

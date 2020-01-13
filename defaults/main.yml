@@ -32,3 +32,12 @@ bootstrap_ssh_key_hosts_file_default: "~/.ssh/known_hosts"
 # Subset of facts to be gathered by the `setup` module *after* the
 # bootstrap installation of python.  See README.md for details.
 bootstrap_gather_facts: 'all'
+
+# Version of python to install.
+# Assume `python3`, but could set to `python` if you need old-school.
+# bootstrap_python_version: "{{ bootstrap_python_version_by_distro[ansible_distribution + '-' + ansible_distribution_major_version]
+#                               | d(bootstrap_python_version_default) }}"
+bootstrap_python_version: 'python3'
+
+# Auto-fallback to just python[2] on older systems
+bootstrap_python_auto_fallback: true

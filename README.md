@@ -62,6 +62,19 @@ None.
 
   May be set to `false` (or an empty list or an empty string) to disable the gathering of facts post bootstrap.
 
+* `bootstrap_python_verison` (default: `'python3'`)
+
+  Select the version of python to install.
+  Assumes `python3`, but could set to `python` if you need old-school.  Further assumes that you have your [ansible configuration for interpreter discovery](https://docs.ansible.com/ansible/latest/reference_appendices/interpreter_discovery.html) set, or you are happy with the defaults.
+
+* `bootstrap_python_auto_fallback` (default: `true`)
+
+If true, auto-fallback to just `python[2]` on older distributions where, there is no trivial (via `apt|yum|pkg`) installation of minimal version of python required by ansible.  This currently affects on the following distributions, where this role will install `python` (aka `python2`) instead:
+
+    - Centos 6
+    - Debian Jessie (Debian 8)
+    - Ubuntu Trusty Tahr (Ubuntu 14.04)
+
 ## Example Playbook
 
 There is very little to this role, however, because it's primary task is to install `python`, any playbook that makes use of it must disable the gathering of facts before it runs; for example:
