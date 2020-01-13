@@ -34,7 +34,7 @@ galaxy_info:
         - trusty
         - xenial
         - bionic
-        - disco
+        # - disco
         - eoan
     - name: FreeBSD
       versions:
