@@ -1,10 +1,4 @@
 ---
-- import_tasks: known_hosts.yml
-  when:
-    - bootstrap_ssh_key_auto_cache
-  tags:
-    - known_hosts
-
 - name: Determine OS release
   raw: 'cat /etc/*os-release'
   register: os
