@@ -29,7 +29,9 @@
     || (test $? -eq 42 && exit 42 \
                        || command -v pkg     && pkg update \
                                              && pkg install -y {{ bootstrap_python_version }} \
-                                             && exit 42)
+                                             && exit 42) \
+  # NOTE: Always escape traling newline with `\`
+  # see: https://github.com/ansible/ansible/issues/68314
   register: py
   changed_when: py.rc == 42
   failed_when: py.rc >= 1 and py.rc != 42
