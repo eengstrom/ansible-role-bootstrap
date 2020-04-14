@@ -7,4 +7,5 @@ install:
   - pip install ansible molecule docker
   - pip install yamllint ansible-lint flake8
 script:
+  - molecule --version
   - molecule test
