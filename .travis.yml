@@ -1,0 +1,19 @@
+---
+language: python
+services: docker
+# python:
+#   - "2.7"
+#   - "3.6"
+services:
+  - docker
+# dist: xenial
+# env:
+#   - GOPATH=~/gopath
+# install:
+#   - ./molecule/setup.sh
+install:
+  - pip install ansible molecule docker
+script:
+  - molecule --version
+  - ansible --version
+  # - molecule test
