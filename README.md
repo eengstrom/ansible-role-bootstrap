@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/eengstrom/ansible-role-bootstrap.svg?branch=master)](https://travis-ci.com/eengstrom/ansible-role-bootstrap)
+
 # Ansible Bootstrap Role
 
 Ansible role to bootstrap a fresh system to accept subsequent Ansible plays.
