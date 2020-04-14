@@ -1,6 +1,13 @@
-[![Build Status](https://travis-ci.com/eengstrom/ansible-role-bootstrap.svg?branch=master)](https://travis-ci.com/eengstrom/ansible-role-bootstrap)
-
 # Ansible Bootstrap Role
+
+[![Build Status](https://travis-ci.com/eengstrom/ansible-role-bootstrap.svg?branch=master)](https://travis-ci.com/eengstrom/ansible-role-bootstrap)
+[![GitHub release](https://img.shields.io/github/release/eengstrom/ansible-role-bootstrap.svg?&colorB=56b4b6&logo=github&logoColor=EEE)](https://github.com/eengstrom/ansible-role-bootstrap/releases)
+[![Ansible Role](https://img.shields.io/ansible/role/44508.svg?colorB=56b4b6&logo=ansible&logoColor=EEE)][ansible_galaxy]
+[![Ansible Role downloads](https://img.shields.io/ansible/role/d/44508.svg?label=downloads&logo=ansible&logoColor=EEE)][ansible_galaxy]
+
+[travis_ci]: https://travis-ci.com/eengstrom/ansible-role-bootstrap
+[github-rev]: https://github.com/eengstrom/ansible-role-bootstrap/releases
+[ansible_galaxy]: https://galaxy.ansible.com/eengstrom/bootstrap
 
 Ansible role to bootstrap a fresh system to accept subsequent Ansible plays.
 
