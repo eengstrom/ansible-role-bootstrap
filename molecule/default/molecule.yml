@@ -3,8 +3,6 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
 platforms:
   - name: centos6
     image: centos:6
@@ -42,23 +40,23 @@ platforms:
     image: ubuntu:19.10
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
+verifier:
+  name: ansible
+lint: 'molecule/lint.sh'
+# Override default scenario(s)
+# https://molecule.readthedocs.io/en/latest/configuration.html#root-scenario
 scenario:
-  name: default
   test_sequence:
-    - lint
-    - destroy
     # - dependency
+    - lint
+    # - cleanup
+    - destroy
     - syntax
     - create
     # - prepare
     - converge
     - idempotence
     # - side_effect
-    # - verify
+    - verify
+    # - cleanup
     - destroy
-verifier:
-  name: testinfra
-  lint:
-    name: flake8
