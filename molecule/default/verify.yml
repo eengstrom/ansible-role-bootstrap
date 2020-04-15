@@ -1,0 +1,21 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: true
+  vars:
+    _min_py_by_distro:
+      CentOS-6: 2.6
+      CentOS-7: 2.7
+      Debian-8: 2.7
+      Ubuntu-14: 2.7
+      default: 3.5.0
+    _distro_ver: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}"
+    _min_py_ver: "{{ _min_py_by_distro[_distro_ver] | d(_min_py_by_distro['default']) }}"
+  tasks:
+    - name: Check for expected version of python
+      assert:
+        that:
+          - ansible_python_version is defined
+          - ansible_python_version is version(_min_py_ver, '>=')
+        fail_msg: "python {{ ansible_python_version }}; expected >= {{ _min_py_ver }}."
+        success_msg: "python {{ ansible_python_version }} (>= {{ _min_py_ver }}) found."
