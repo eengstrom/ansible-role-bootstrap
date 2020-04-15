@@ -35,6 +35,7 @@ None.
   If true, auto-fallback to just `python[2]` on older distributions where, there is no trivial (via `apt|yum|pkg`) installation of minimal version of python required by ansible.  This currently affects on the following distributions, where this role will install `python` (aka `python2`) instead:
 
     - Centos 6
+    - Centos 7
     - Debian Jessie (Debian 8)
     - Ubuntu Trusty Tahr (Ubuntu 14.04)
 

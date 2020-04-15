@@ -13,7 +13,7 @@
     bootstrap_python_version: 'python'
   when:
     - bootstrap_python_auto_fallback
-    - (os | d('')) is regex('CentOS [^ ]+ 6|Debian [^ ]+ 8|Ubuntu 14')
+    - (os | d('')) is regex('CentOS [^ ]+ [67]|Debian [^ ]+ 8|Ubuntu 14')
 
 - name: Bootstrap Install Python
   raw: |
