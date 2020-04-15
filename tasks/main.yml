@@ -15,12 +15,18 @@
     - bootstrap_python_auto_fallback
     - (os | d('')) is regex('CentOS [^ ]+ [67]|Debian [^ ]+ 8|Ubuntu 14')
 
+# Random comment I found recently, but haven't yet needed:
+# Lil' update, on ubuntu 18.04 installing python-minimal will prompt interactively for some libssl installation, which then sits there forever. Using
+#   test -e /usr/bin/python || (apt -y update && apt -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -qq -y install python-minimal)
+# fixes this behavior.
+
 - name: Bootstrap Install Python
   raw: |
     command -v {{ bootstrap_python_version }}  \
     || (test $? -eq 42 && exit 42 \
                        || command -v apt-get && apt-get -y update \
-                                             && DEBIAN_FRONTEND=noninteractive apt-get install -y {{ bootstrap_python_version }}-minimal \
+                                             && UCF_FORCE_CONFOLD=1 DEBIAN_FRONTEND=noninteractive \
+                                                apt-get install -y {{ bootstrap_python_version }}-minimal \
                                              && exit 42) \
     || (test $? -eq 42 && exit 42 \
                        || command -v yum     && yum -y update \
