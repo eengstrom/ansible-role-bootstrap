@@ -57,7 +57,7 @@ There is very little to this role, however, because it's primary task is to inst
       roles:
         - eengstrom.bootstrap
 
-After bootstrap, the module will attempt to re-gather facts not yet in Ansible's brain per the variable `bootstrap_gather_facts`.
+After bootstrap, the module will attempt to re-gather facts not yet in Ansible's brain, per the variable `bootstrap_gather_facts`.
 
 ## SSH Host Key Caching
 
@@ -65,14 +65,11 @@ Because this playbook is intended to be run on a fresh system, typically you wil
 
 ## Testing
 
-Testing of this role uses [`molecule`](https://molecule.readthedocs.io/en/latest/index.html) and it's docker driver.  To test, I use [`pipenv`](https://pipenv.readthedocs.io/en/latest/) for a local python environment, something like this:
+Testing of this role uses [`molecule`](https://molecule.readthedocs.io/en/latest/index.html) and it's docker driver.  To test, I use [`pipenv`](https://pipenv.readthedocs.io/en/latest/) for a local python environment.  One-liner to test:
 
-    pipenv install docker molecule
-    pipenv shell
-    molecule test
-    exit
+    pipenv install --dev && pipenv run molecule test
 
-CAVEAT: I do not have testing setup for FreeBSD, largely because using docker on Linux to spin up FreeBSD containers is not really easy.  I'll have to move to VirtualBox testing at some point.
+CAVEAT: I do not have testing for FreeBSD, largely because using docker on Linux to spin up FreeBSD containers is not really easy.  PRs welcome.
 
 ## Author Information
 
